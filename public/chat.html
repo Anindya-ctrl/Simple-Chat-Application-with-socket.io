@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Applet</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="client.js" defer></script>
 </head>
 <body>
     <header class="chat-header">
@@ -37,15 +40,15 @@
         </div>
     </main>
     <div id="input-box">
-        <form action="">
+        <form id="chat-form">
             <input
                 type="text"
-                id="message-input"
+                id="input"
                 placeholder="What's on your mind?"
-                required
             />
+            <button id="send-message">Send!</button>
         </form>
-        <button id="send-message">Send!</button>
+        
     </div>
 </body>
 </html>
