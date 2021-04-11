@@ -6,6 +6,9 @@ const chatMessages = document.getElementById('messages');
 socket.on('message', message => {
     // console.log(message);
     outputMessageToDOM(message);
+
+    // SCROLL DOWN AUTOMETICALLY IF THE MAXIMUM HEIGHT IS REACHED
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 });
 
 // ON MESSAGE SEND
