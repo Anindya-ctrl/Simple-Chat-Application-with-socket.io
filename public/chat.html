@@ -7,7 +7,7 @@
     <title>Chat Applet</title>
     <link rel="stylesheet" href="styles.css">
     <script src="/socket.io/socket.io.js" defer></script>
-    <script src="client.js" defer></script>
+    <script src="client.js" type="module" defer></script>
 </head>
 <body>
     <header class="chat-header">
@@ -28,11 +28,11 @@
             </ul>
 
             <div id="messages">
-                <div id="message">
+                <div class="message">
                     <p class="name-date">John <span>12:00pm</span></p>
                     <p class="message-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, perspiciatis.</p>
                 </div>
-                <div id="message">
+                <div class="message">
                     <p class="name-date">Jessica <span>12:01pm</span></p>
                     <p class="message-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, perspiciatis.</p>
                 </div>

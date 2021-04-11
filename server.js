@@ -28,6 +28,12 @@ io.on('connection', socket => {
     socket.on('disconnect', () => {
         io.emit('message', 'An user has diconnected! :(');
     });
+
+    // CATCH chat-message EVENT
+    socket.on('chat-message', message => {
+        // SEND BACK TO THE CLIENT SIDE AS message EVENT
+        io.emit('message', message);
+    });
 });
 
 server.listen(PORT, () => {
