@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Applet</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js" defer></script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="client.js" type="module" defer></script>
 </head>
@@ -27,16 +28,7 @@
                 <li>Merry</li>
             </ul>
 
-            <div id="messages">
-                <div class="message">
-                    <p class="name-date">John <span>12:00pm</span></p>
-                    <p class="message-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, perspiciatis.</p>
-                </div>
-                <div class="message">
-                    <p class="name-date">Jessica <span>12:01pm</span></p>
-                    <p class="message-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius, perspiciatis.</p>
-                </div>
-            </div>
+            <div id="messages"></div>
         </div>
     </main>
     <div id="input-box">

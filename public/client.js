@@ -17,18 +17,28 @@ chatForm.addEventListener('submit', event => {
 
     const message = event.target.elements.input.value;
 
+    // CLEAN UP AND FOCUS ON INPUT
     event.target.elements.input.value = '';
     event.target.elements.input.focus();
 
     socket.emit('chat-message', message);
 });
 
+// GET USERNAME AND ROOMNAME FROM URL
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+
+// EMIT AN EVENT WITH USERNAME AND ROOMNAME
+socket.emit('join-room', { username, room });
+
+// CREATE A NEW MESSAGE ELEMEND AND APPEND TO THE DOM
 const outputMessageToDOM = message => {
+    const { username, content, time } = message;
+
     const newMessage = document.createElement('div');
     newMessage.classList.add('message');
     newMessage.innerHTML = `
-        <p class="name-date">John <span>12:00pm</span></p>
-        <p class="message-content">${ message }</p>
+        <p class="name-date">${ username } <span>${ time }</span></p>
+        <p class="message-content">${ content }</p>
     `;
 
     chatMessages.appendChild(newMessage);
