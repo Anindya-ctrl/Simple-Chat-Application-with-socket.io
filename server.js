@@ -8,7 +8,7 @@ const socketio = require('socket.io');
 const io = socketio(server);
 
 const formatMessage = require('./utilities/formatMessage');
-const { onUserJoin, getCurrentUser } = require('./utilities/userFunctions');
+const { onUserJoin, getCurrentUser, getAllUsersInRoom, onUserLeave } = require('./utilities/userFunctions');
 require('dotenv').config();
 const adminName = 'ADMIN';
 
@@ -22,23 +22,31 @@ app.use(express.static(STATIC_FOLDER));
 io.on('connection', socket => {
     socket.on('join-room', ({ username, room }) => {
         const user = onUserJoin(socket.id, username, room);
+        socket.join(user.room);
 
         // TO THE SINGLE CLIENT WHO CONNECTS
-        socket.emit('message', formatMessage(adminName, 'Welcome to Chat Applet!'));
+        socket.emit('message', formatMessage(adminName, `Welcome to Chat Applet, ${ user.username }!`));
 
         // TO EVERYONE EXCEPT THE CLIENT WHO JOINS
-        socket.broadcast.emit('message', formatMessage(adminName, 'A new user has connected!'));
+        socket.broadcast.to(user.room).emit('message', formatMessage(adminName, `${ user.username } has connected!`));
 
         // CATCH chat-message EVENT
         socket.on('chat-message', message => {
+            const currentUser = getCurrentUser(socket.id);
+
             // SEND BACK TO THE CLIENT SIDE AS message EVENT
-            io.emit('message', formatMessage(user.username, message));
+            io.to(currentUser.room).emit('message', formatMessage(currentUser.username, message));
         });
     });
 
     // TO EVERYONE WHEN A CLIENT DISCONNECTS
     socket.on('disconnect', () => {
-        io.emit('message', formatMessage(adminName, 'An user has diconnected! :('));
+        const disconnectedUser = onUserLeave(socket.id);
+
+        disconnectedUser ? 
+        io.to(disconnectedUser.room).emit('message', formatMessage(adminName, `${ disconnectedUser.username } has diconnected! :(`)) :
+        
+        void 0;
     });
 });
 

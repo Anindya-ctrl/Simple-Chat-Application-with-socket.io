@@ -10,14 +10,22 @@ const onUserJoin = (id, username, room) => {
 
 // GET CURRENT USER
 const getCurrentUser = id => {
-    return users.findIndex(user => user.id === id);
+    return users.find(user => user.id === id);
 }
 
-const onUserLeave = (id, username, room) => {
+const getAllUsersInRoom = room => {
+    return users.filter(user => user.room === room);
+}
 
+const onUserLeave = id => {
+    const index = users.findIndex(user => user.id === id);
+
+    return index !== -1 ? users.splice(index, 1)[0] : void 0;
 }
 
 module.exports = {
     onUserJoin,
     getCurrentUser,
+    getAllUsersInRoom,
+    onUserLeave,
 };
