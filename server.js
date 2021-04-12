@@ -30,6 +30,12 @@ io.on('connection', socket => {
         // TO EVERYONE EXCEPT THE CLIENT WHO JOINS
         socket.broadcast.to(user.room).emit('message', formatMessage(adminName, `${ user.username } has connected!`));
 
+        // EMIT USERS AND ROOM INFO
+        io.to(user.room).emit('join-users', {
+            users: getAllUsersInRoom(user.room),
+            room: user.room,
+        });
+
         // CATCH chat-message EVENT
         socket.on('chat-message', message => {
             const currentUser = getCurrentUser(socket.id);
@@ -47,6 +53,12 @@ io.on('connection', socket => {
         io.to(disconnectedUser.room).emit('message', formatMessage(adminName, `${ disconnectedUser.username } has diconnected! :(`)) :
         
         void 0;
+
+        // EMIT USERS AND ROOM INFO (2)
+        io.to(disconnectedUser.room).emit('join-users', {
+            users: getAllUsersInRoom(disconnectedUser.room),
+            room: disconnectedUser.room,
+        });
     });
 });
 

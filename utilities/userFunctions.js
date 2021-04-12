@@ -1,3 +1,4 @@
+// CONTAIN USER INFO
 const users = [];
 
 // JOIN USER TO CHAT
@@ -13,10 +14,12 @@ const getCurrentUser = id => {
     return users.find(user => user.id === id);
 }
 
+// GET ALL USERS IN ROOM
 const getAllUsersInRoom = room => {
     return users.filter(user => user.room === room);
 }
 
+// LEAVE USER FROM CHAT
 const onUserLeave = id => {
     const index = users.findIndex(user => user.id === id);
 

@@ -1,10 +1,11 @@
 const socket = io();
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.getElementById('messages');
+const userList = document.getElementById('user-list');
+const roomName = document.getElementById('room-name');
 
 // CATCH message EVENTS
 socket.on('message', message => {
-    // console.log(message);
     outputMessageToDOM(message);
 
     // SCROLL DOWN AUTOMETICALLY IF THE MAXIMUM HEIGHT IS REACHED
@@ -30,6 +31,12 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
 // EMIT AN EVENT WITH USERNAME AND ROOMNAME
 socket.emit('join-room', { username, room });
 
+// CATCH join-users EVENTS
+socket.on('join-users', ({ users, room }) => {
+    outputUsersListToDOM(users);
+    outputRoomNameToDOM(room);
+});
+
 // CREATE A NEW MESSAGE ELEMEND AND APPEND TO THE DOM
 const outputMessageToDOM = message => {
     const { username, content, time } = message;
@@ -42,4 +49,14 @@ const outputMessageToDOM = message => {
     `;
 
     chatMessages.appendChild(newMessage);
+}
+
+const outputUsersListToDOM = users => {
+    userList.innerHTML = `
+        ${ users.map(user => `<li>${ user.username }</li>`).join('') }
+    `;
+}
+
+const outputRoomNameToDOM = room => {
+    roomName.innerText = room;
 }
