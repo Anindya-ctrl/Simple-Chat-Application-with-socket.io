@@ -1,4 +1,4 @@
-const socket = io();
+const socket = io(); 
 const chatForm = document.getElementById('chat-form');
 const chatMessages = document.getElementById('messages');
 const userList = document.getElementById('user-list');
